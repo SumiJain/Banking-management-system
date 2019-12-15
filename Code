@@ -1,0 +1,75 @@
+from random import randint
+class Bank:
+    def __init__(self):
+        self.savingsAccount={}
+    
+    def createAccount(self,name,initialDeposit):
+        self.accountNo=randint(10000,99999)
+        self.savingsAccount[self.accountNo]=[name,initialDeposit]
+        print("Congrats! New account successfully created.")
+        print("Your account number is: ",self.accountNo)
+        #self.account_no=account_no
+        
+    def validateCredentials(self,name,accountNo):
+        if accountNo in self.savingsAccount.keys():
+            print(1)
+            if name==self.savingsAccount[accountNo][0]:
+                print("Credentials matched!")
+                self.accountNo=accountNo
+                return True
+            else:
+                print("Invalid Credentials1")
+                return False
+        else:
+            print("Invalid Credentials2")
+            return False
+        
+    def displayBalance(self):
+        print("Available balance: ",self.savingsAccount[self.accountNo][1])
+        
+    def withdrawAmount(self,withdrawalAmount):
+        if withdrawalAmount>self.savingsAccount[self.accountNo][1]:
+            print("Insufficient balance")
+        else:
+            self.savingsAccount[self.accountNo][1]-=withdrawalAmount
+            print("Withdrawal successful")
+            self.displayBalance()
+    
+    def depositAmount(self,depositedAmount):
+        self.savingsAccount[self.accountNo][1]+=depositedAmount
+        print("Deposit successful")
+        self.displayBalance()
+        
+bank=Bank()
+while True:    
+    print("Enter 1 to create a new savings account")
+    print("Enter 2 to access an existing account")
+    print("Enter 3 to quit")
+    choice=int(input())
+    if choice is 1:
+        name=input("Enter your name: ")
+        initialamount=int(input("Enter initial amount: "))
+        bank.createAccount(name,initialamount)
+    elif choice is 2:
+        name=input("Enter your name: ")
+        account_no=int(input("Enter your account number: "))
+        a=bank.validateCredentials(name,account_no)
+        if a:
+            while True:
+                print("Enter 1 to display account balance")
+                print("Enter 2 to withdraw amount")
+                print("Enter 3 to deposit amount")
+                print("Enter 4 to go to main menu")
+                choice=int(input())
+                if choice is 1:
+                    bank.displayBalance()
+                elif choice is 2:
+                    withdrawalAmount=int(input("Enter the amount to be withdrawn: "))
+                    bank.withdrawAmount(withdrawalAmount)
+                elif choice is 3:
+                    depositedAmount=int(input("Enter the amount to be deposited: "))
+                    bank.depositAmount(depositedAmount)
+                elif choice is 4:
+                    break
+    elif choice is 3:
+        break
